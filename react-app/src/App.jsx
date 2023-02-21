@@ -3,16 +3,13 @@ import { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {
-  createBrowserRouter,
-  RouterProvider,
   Route,
   Routes,
   Link,
   useNavigate,
 } from "react-router-dom";
 import SearchComp from './components/Search';
-import { getSearchResult } from './components/Search';
-import * as Function from './components/Functions'
+import Movies from './components/Movies';
 import * as Constant from './components/Constants'
 import axios from 'axios';
 
@@ -48,11 +45,12 @@ function App() {
         <button
         onClick={handleSearch}>search</button>
       </div>
-      <div className="container">
+      <div className="container min-w-full">
         <Routes>
           <Route exact path="/" element={<>Home</>}/>
           <Route exact path="/home" element={<>Home</>}/>
           <Route exact path="search/:query" element={<SearchComp genres={genres}/>}/>
+          <Route exact path="movie/:movieId" element={<Movies/>}/>
           <Route path="*" element={<>NotFound</>}/>
         </Routes>
       </div>

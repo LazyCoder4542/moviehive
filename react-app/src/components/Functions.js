@@ -14,3 +14,11 @@ export async function generateGenres() {
         return res.data;
     })
 }
+export function stringifyDate(string) {
+    let arr =  string.split("-");
+    const event = new Date()
+    event.setFullYear(parseInt(arr[0]))
+    event.setMonth(parseInt(arr[1]))
+    event.setDate(parseInt(arr[2]))
+    return event.toUTCString().split(" ").slice(1, 4).join(" ")
+}
