@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as Constant from './Constants'
 import * as Function from './Functions'
@@ -27,6 +27,7 @@ function SearchComp(props) {
       genre: "any",
       release_date: "any"
     })
+    const navigate = useNavigate()
     useEffect(() => {
         const data = getSearchResult(decodeURIComponent(query))
         data.then((res)=>{
@@ -60,7 +61,12 @@ function SearchComp(props) {
             let val = filter
             return val.genre !== "any" ? itm.genre_ids.includes(parseInt(val.genre) ) : true
           }).map((itm, idx) => {
-            return <li key={idx} className="flex flex-row list-none bg-gray-300 p-5 mx-10 rounded-xl gap-x-5">
+            return <li key={idx} className="flex flex-row list-none bg-gray-300 p-5 mx-10 rounded-xl gap-x-5"
+            onClick={()=> {
+              navigate(`/movie/${itm.id}`);
+              }
+            }
+            >
               <img src={itm.poster_path ? Function.generateImageUrl(itm.poster_path) : "../video-icon.png"} alt={itm.title} className="w-1/6" />
               <div>
                 <div className="text-lg">{itm.original_title}</div>

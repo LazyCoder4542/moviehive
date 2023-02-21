@@ -20,13 +20,22 @@ async function getImages(id) {
             api_key: Constant.accessToken,
         }
     }).then((res)=> {
-        let imageURLs = res.data.backdrops.map(backdrop => {
+        let imageURLs = res.data.backdrops.slice(0, 20).map(backdrop => {
             return Function.generateImageUrl(backdrop.file_path)
         })
-        console.log(imageURLs);
         return imageURLs;
     })
     return data
+}
+async function getSimilarMovies(id) {
+    const data = await axios.get(`https://api.themoviedb.org/3/movie/${id}/similar`, {
+        params: {
+            api_key: Constant.accessToken,
+        }
+    }).then((res)=> {
+        return res
+    })
+    return data.data
 }
 function Movies() {
     const { movieId } = useParams()
@@ -34,20 +43,23 @@ function Movies() {
     const [images, setImages] = useState(null)
     useEffect(()=>{
         getImages(movieId).then((res)=>{
-            console.log(res);
             setImages(res)
         })
         getMovieInfo(movieId).then((res)=>{
             console.log(res);
             setMovieInfo(res)
         })
+        getSimilarMovies(movieId).then((res)=>{
+            console.log(res);
+            //setMovieInfo(res)
+        })
     }, [movieId])
     return (
     <>
         {movieInfo ? 
         <div className="relative pt-[20rem]">
-            <picture className="absolute -z-10 top-0">
-                <img src={movieInfo.backdrop_path !== "" ? Function.generateImageUrl(movieInfo.backdrop_path) : Function.generateImageUrl(movieInfo.poster_path)} className="w-full" alt="" />
+            <picture className="absolute -z-10 top-0 overflow-hidden">
+                <img src={movieInfo.backdrop_path ? Function.generateImageUrl(movieInfo.backdrop_path) : Function.generateImageUrl(movieInfo.poster_path)} className="w-full" alt="" />
             </picture>
             <div className="m-12 p-5 bg-slate-300 rounded-lg">
                 <header className="flex flex-row gap-x-5">
@@ -60,6 +72,7 @@ function Movies() {
                         })}</div>
                         <div className="text-lg">{movieInfo.popularity}</div>
                         <div>released: {movieInfo.release_date !== "" ? Function.stringifyDate(movieInfo.release_date) : "unknown"}</div>
+                        <div>Runtime: {movieInfo.runtime !== "" ? Function.stringifyTime(movieInfo.runtime) : "unknown"}</div>
                     </div>
                 </header>
                 <section id="images">
@@ -68,16 +81,20 @@ function Movies() {
                             Images
                         </h1>
                     </header>
-                    <div className="images flex flex-row gap-x-5">
-                        {images ? images.map((url, i)=>{
+                    <div className="images flex flex-row gap-5 flex-wrap w-full justify-between">
+                        {images.length !== 0 ? images.map((url, i)=>{
                             return <img src={url} alt={`img${i}`} key={i} className="w-40"/>
                           })
-                          : ""
+                          : <span className="p-10 m-auto">No Images to display</span>
                         }
                     </div>
                 </section>
+                <section id="similar-movies">
+                    <header>
+                        <h1>Similar Movies</h1>
+                    </header>
+                </section>
             </div>
-            {JSON.stringify(movieInfo)}
         </div>
         : ""}
     </>);
