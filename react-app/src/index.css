@@ -20,6 +20,7 @@ header > h2 {
     flex-wrap: wrap;
     gap: 0 0.25rem;
     flex-direction: row;
+    align-items: flex-start;
 }
 .genre > span {
     display: inline-flex;
@@ -29,4 +30,15 @@ header > h2 {
     color: #ddd;
     border-radius: 1rem;
     place-self: center;
+    cursor: pointer;
 }
+.title {
+    line-height: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: var(--line-clamp, 3);
+    -webkit-box-orient: vertical;
+    word-break: var(--word-break, 'none');
+    overflow: hidden;
+    hyphens: auto;
+    text-align: var(--align, left);
+  }

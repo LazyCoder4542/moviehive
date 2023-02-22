@@ -37,7 +37,7 @@ function Home(props) {
             setData(prevData=> {
                 return {
                     ...prevData,
-                    latest: res.data
+                    popular: res.data
                 }
             })
         })
@@ -50,7 +50,7 @@ function Home(props) {
             setData(prevData=> {
                 return {
                     ...prevData,
-                    latest: res.data
+                    top_rated: res.data
                 }
             })
         })
@@ -94,15 +94,70 @@ function Home(props) {
                 }
                 >
                   <img src={itm.poster_path ? Function.generateImageUrl(itm.poster_path, "w200") : "../video-icon.png"} alt={itm.title} className="w-1/2 object-cover overflow-hidden object-center basis-full" />
-                  <div className="basis-full p-2">
-                    <div className="text-lg">{itm.original_title}</div>
-                    <div className="genre">{ props.genres ? itm.genre_ids.map((itm)=> {
+                  <div className="basis-full p-2 grid grid-rows-3 grid-flow-col">
+                    <div className="text-lg title">{itm.original_title}</div>
+                    <div className="genre mb-auto">{ props.genres ? itm.genre_ids.map((itm)=> {
                       return <span key={itm}>{props.genres.find(g => {
-                        //console.log(g);
                         return g.id === itm
                     }).name}</span>
                     }) : ""}</div>
-                    <div className="text-lg">{itm.popularity}</div>
+                    <div className="text-lg mt-auto">{itm.popularity}</div>
+                  </div>
+                </li>
+                          }) : ''}
+            </div>
+            </div>
+        </section>
+        <section id="trending-movies">
+            <header>
+                <h2>Popular Movies</h2>
+            </header>
+            <div className="swiper overflow-hidden">
+            <div className="swiper-wrapper flex flex-row flex-nowrap min-w-fit">
+                {(data.popular !== null) ? data.popular.results.map((itm, idx) => {
+                return <li key={idx} className="swiper-slide overflow-hidden flex flex-row list-none bg-gray-300 rounded-xl h-[15rem] w-[24rem]"
+                onClick={()=> {
+                  navigate(`/movie/${itm.id}`);
+                  }
+                }
+                >
+                  <img src={itm.poster_path ? Function.generateImageUrl(itm.poster_path, "w200") : "../video-icon.png"} alt={itm.title} className="w-1/2 object-cover overflow-hidden object-center basis-full" />
+                  <div className="basis-full p-2 grid grid-rows-3 grid-flow-col">
+                    <div className="text-lg title">{itm.original_title}</div>
+                    <div className="genre mb-auto">{ props.genres ? itm.genre_ids.map((itm)=> {
+                      return <span key={itm}>{props.genres.find(g => {
+                        return g.id === itm
+                    }).name}</span>
+                    }) : ""}</div>
+                    <div className="text-lg mt-auto">{itm.popularity}</div>
+                  </div>
+                </li>
+                          }) : ''}
+            </div>
+            </div>
+        </section>
+        <section id="top-rated-movies">
+            <header>
+                <h2>Top-rated Movies</h2>
+            </header>
+            <div className="swiper overflow-hidden">
+            <div className="swiper-wrapper flex flex-row flex-nowrap min-w-fit">
+                {(data.top_rated !== null) ? data.top_rated.results.map((itm, idx) => {
+                return <li key={idx} className="swiper-slide overflow-hidden flex flex-row list-none bg-gray-300 rounded-xl h-[15rem] w-[24rem]"
+                onClick={()=> {
+                  navigate(`/movie/${itm.id}`);
+                  }
+                }
+                >
+                  <img src={itm.poster_path ? Function.generateImageUrl(itm.poster_path, "w200") : "../video-icon.png"} alt={itm.title} className="w-1/2 object-cover overflow-hidden object-center basis-full" />
+                  <div className="basis-full p-2 grid grid-rows-3 grid-flow-col">
+                    <div className="text-lg title">{itm.original_title}</div>
+                    <div className="genre mb-auto">{ props.genres ? itm.genre_ids.map((itm)=> {
+                      return <span key={itm}>{props.genres.find(g => {
+                        return g.id === itm
+                    }).name}</span>
+                    }) : ""}</div>
+                    <div className="text-lg mt-auto">{itm.popularity}</div>
                   </div>
                 </li>
                           }) : ''}
