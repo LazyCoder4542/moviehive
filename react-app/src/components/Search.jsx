@@ -103,7 +103,7 @@ function SearchComp(props) {
               <div>
                 <div className="text-lg">{itm.original_title}</div>
                 <div className="">{itm.overview.charAt(0).toUpperCase() + itm.overview.slice(1)}</div>
-                <div className="">{itm.genre_ids.map((itm)=> {
+                <div className="genre">{itm.genre_ids.map((itm)=> {
                   return <span key={itm}>{props.genres.find(g => g.id === itm).name}</span>
                 })}</div>
                 <div className="text-lg">{itm.popularity}</div>

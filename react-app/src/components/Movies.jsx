@@ -33,7 +33,7 @@ async function getImages(id) {
     return data
 }
 async function getSimilarMovies(id) {
-    const data = await axios.get(`https://api.themoviedb.org/3/movie/${id}/similar`, {
+    const data = await axios.get(`https://api.themoviedb.org/3/movie/${id}/recommendations`, {
         params: {
             api_key: Constant.accessToken,
         }
@@ -43,16 +43,6 @@ async function getSimilarMovies(id) {
     return data.data
 }
 function Movies() {
-    new Swiper(".swiper", {
-        direction: 'horizontal',
-        slidesPerView: 2,
-        //loop: true,
-        modules: [Navigation, Pagination],
-        /*navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },*/
-    });
     const { movieId } = useParams()
     const [movieInfo, setMovieInfo] = useState(null)
     const [similarMovies, setSimilarMovies] = useState(null)
@@ -82,13 +72,21 @@ function Movies() {
                 }
             }
         })
+        setTimeout(()=> {
+            new Swiper(".swiper", {
+                direction: 'horizontal',
+                slidesPerView: 2,
+                //loop: true,
+                modules: [Navigation, Pagination],
+            });
+        }, 5000)
     }, [movieId])
     return (
     <>
         {movieInfo ? 
         <div className="relative pt-[20rem]">
-            <picture className="absolute -z-10 top-0 overflow-hidden">
-                <img src={movieInfo.backdrop_path ? Function.generateImageUrl(movieInfo.backdrop_path) : Function.generateImageUrl(movieInfo.poster_path)} className="w-full h-[80vh] object-cover object-bottom" alt="" />
+            <picture className="absolute -z-10 top-0 overflow-hidden w-screen">
+                <img src={movieInfo.backdrop_path ? Function.generateImageUrl(movieInfo.backdrop_path) : Function.generateImageUrl(movieInfo.poster_path)} className="w-full h-[80vh] object-cover object-center" alt="" />
             </picture>
             <div className="m-12 p-5 bg-slate-300 rounded-lg">
                 <header className="flex flex-row gap-x-5">
@@ -96,7 +94,7 @@ function Movies() {
                     <div>
                         <div className="text-lg">{movieInfo.original_title}</div>
                         <div className="">{movieInfo.overview.charAt(0).toUpperCase() + movieInfo.overview.slice(1)}</div>
-                        <div className="">{movieInfo.genres.map((genre)=> {
+                        <div className="genre">{movieInfo.genres.map((genre)=> {
                         return <span key={genre.id}>{genre.name}</span>
                         })}</div>
                         <div className="text-lg">{movieInfo.popularity}</div>
@@ -132,7 +130,7 @@ function Movies() {
                                       }
                                     }
                                     >
-                                      <img src={itm.poster_path ? Function.generateImageUrl(itm.poster_path) : "../video-icon.png"} alt={itm.title} className="w-1/2 object-cover overflow-hidden object-center basis-full" />
+                                      <img src={itm.poster_path ? Function.generateImageUrl(itm.poster_path, "w200") : "../video-icon.png"} alt={itm.title} className="w-1/2 object-cover overflow-hidden object-center basis-full" />
                                       <div className="basis-full">
                                         <div className="text-lg">{itm.original_title}</div>
                                         <div className="text-lg">{itm.popularity}</div>

@@ -7,6 +7,7 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
+import Home from './components/Home';
 import SearchComp from './components/Search';
 import Movies from './components/Movies';
 import * as Constant from './components/Constants'
@@ -30,7 +31,7 @@ function App() {
     })
   }, [])
   return (
-    <div className="App">
+    <div className="App overflow-hidden">
       <header className="App-header flex content-center justify-between py-5" id='site-header'>
         <h1><Link to={"/"} style={{all: 'unset !important'}}>MoviHive</Link></h1>
         <div className="search flex flex-row bg-slate-600 content-center p-2 rounded-md">
@@ -49,8 +50,8 @@ function App() {
       </header>
       <div className="container min-w-full">
         <Routes>
-          <Route exact path="/" element={<>Home</>}/>
-          <Route exact path="/home" element={<>Home</>}/>
+          <Route exact path="/" element={<Home genres={genres}/>}/>
+          <Route exact path="/home" element={<Home genres={genres}/>}/>
           <Route exact path="search/:query" element={<SearchComp genres={genres}/>}/>
           <Route exact path="movie/:movieId" element={<Movies/>}/>
           <Route path="*" element={<>NotFound</>}/>
