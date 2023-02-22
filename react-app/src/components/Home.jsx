@@ -57,12 +57,13 @@ function Home(props) {
         setTimeout(()=> {
             new Swiper(".swiper", {
                 direction: 'horizontal',
-                slidesPerView: 2,
+                slidesPerView: 1,
+                spaceBetween: 10,
                 //loop: true,
                 modules: [Navigation, Pagination],
                 breakpoints: {
                     480: {
-                      slidesPerView: 3,
+                      slidesPerView: 2,
                       spaceBetween: 20,
                     },
                     640: {
