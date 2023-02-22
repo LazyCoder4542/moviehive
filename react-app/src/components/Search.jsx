@@ -35,6 +35,24 @@ function SearchComp(props) {
             console.log(res);
         })
       }, [query])
+    const filterResults = () => {
+      let val = filter
+      let genreFilter = searchResult.results.filter((itm)=> {
+        return val.genre !== "any" ? itm.genre_ids.includes(parseInt(val.genre) ) : true
+      })
+      if (val.release_date !== "any") {
+        genreFilter = genreFilter.filter((itm)=> {
+          return itm.release_date !== null
+        })
+        return genreFilter.sort((a, b)=> {
+          if (val.release_date === "1") {
+            return parseInt(b.release_date.split(" ")[0]) - parseInt(a.release_date.split(" ")[0])
+          }
+          return parseInt(a.release_date.split(" ")[0]) - parseInt(b.release_date.split(" ")[0])
+        })
+      }
+      return genreFilter
+    }
     return (
     <>
         <h1>Search results for { decodeURIComponent(query) }</h1>
@@ -58,18 +76,23 @@ function SearchComp(props) {
               </select>
             </div>
             <div className="date">
-              <label htmlFor="date">Date Released:</label>
-              <select name="date" id="date">
+              <label htmlFor="date">Date Released: </label>
+              <select name="date" id="date" defaultValue="any"
+              onChange={(e)=>{
+                setFilter(previousData => {
+                  return {
+                    ...previousData,
+                    release_date: e.target.value
+                  }
+                })
+              }}>
                 <option value="any">Any</option>
-                <option value="any">Newer First</option>
-                <option value="any">Older First</option>
+                <option value="1">Newer First</option>
+                <option value="0">Older First</option>
               </select>
             </div>
           </div>
-          {(searchResult !== undefined & searchResult !== null) ? searchResult.results.filter((itm)=>{
-            let val = filter
-            return val.genre !== "any" ? itm.genre_ids.includes(parseInt(val.genre) ) : true
-          }).map((itm, idx) => {
+          {(searchResult !== undefined & searchResult !== null) ? filterResults().map((itm, idx) => {
             return <li key={idx} className="flex flex-row list-none bg-gray-300 p-5 mx-10 rounded-xl gap-x-5"
             onClick={()=> {
               navigate(`/movie/${itm.id}`);
