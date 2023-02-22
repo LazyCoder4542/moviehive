@@ -88,7 +88,7 @@ function Movies() {
         {movieInfo ? 
         <div className="relative pt-[20rem]">
             <picture className="absolute -z-10 top-0 overflow-hidden">
-                <img src={movieInfo.backdrop_path ? Function.generateImageUrl(movieInfo.backdrop_path) : Function.generateImageUrl(movieInfo.poster_path)} className="w-full" alt="" />
+                <img src={movieInfo.backdrop_path ? Function.generateImageUrl(movieInfo.backdrop_path) : Function.generateImageUrl(movieInfo.poster_path)} className="w-full h-[80vh] object-cover object-bottom" alt="" />
             </picture>
             <div className="m-12 p-5 bg-slate-300 rounded-lg">
                 <header className="flex flex-row gap-x-5">
