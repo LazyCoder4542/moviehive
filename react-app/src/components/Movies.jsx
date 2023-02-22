@@ -43,7 +43,7 @@ async function getSimilarMovies(id) {
     return data.data
 }
 function Movies() {
-    const swiper = new Swiper(".swiper", {
+    new Swiper(".swiper", {
         direction: 'horizontal',
         slidesPerView: 2,
         //loop: true,

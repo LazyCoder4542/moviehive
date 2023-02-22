@@ -77,7 +77,7 @@ function SearchComp(props) {
             </div>
             <div className="date">
               <label htmlFor="date">Date Released: </label>
-              <select name="date" id="date" defaultValue="any"
+              <select name="date" id="date" defaultValue="any" value={filter.release_date}
               onChange={(e)=>{
                 setFilter(previousData => {
                   return {
