@@ -4,3 +4,14 @@
 * {
     box-sizing: border-box;
 }
+body {
+    font-family: "Shantell Sans";
+}
+#site-header > h1 {
+    font-size: 3rem;
+}
+header > h1,
+header > h2 {
+    font-family: 'Gajraj One';
+    font-size: 200%;
+}
