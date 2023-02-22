@@ -41,6 +41,7 @@ function SearchComp(props) {
         <div className="results flex flex-col gap-y-5">
           <div className="filters">
             <div className="genre">
+              <label htmlFor="genre">Genre:</label>
               <select name="genre" id="genre" defaultValue="any"
               onChange={(e)=>{
                 setFilter(previousData => {
@@ -54,6 +55,14 @@ function SearchComp(props) {
                 {props.genres.map((genre)=>{
                   return <option value={genre.id} key={genre.id}>{genre.name}</option>
                 })}
+              </select>
+            </div>
+            <div className="date">
+              <label htmlFor="date">Date Released:</label>
+              <select name="date" id="date">
+                <option value="any">Any</option>
+                <option value="any">Newer First</option>
+                <option value="any">Older First</option>
               </select>
             </div>
           </div>

@@ -32,19 +32,22 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>MoviHive</h1>
+      <header className="App-header flex content-center justify-between py-5" id='site-header'>
+        <h1><Link to={"/"} style={{all: 'unset !important'}}>MoviHive</Link></h1>
+        <div className="search flex flex-row bg-slate-600 content-center p-2 rounded-md">
+          <input
+          type="text"
+          value={search}
+          placeholder="search movies..."
+          className="rounded-md p-4 outline-0"
+          onChange={(e)=>{
+            setSearch(e.target.value)
+          }}/>
+          <button
+          className="inline-flex m-auto py-4 px-10 outline-0"
+          onClick={handleSearch}>search</button>
+        </div>
       </header>
-      <div className="search">
-        <input
-        type="text"
-        value={search}
-        onChange={(e)=>{
-          setSearch(e.target.value)
-        }}/>
-        <button
-        onClick={handleSearch}>search</button>
-      </div>
       <div className="container min-w-full">
         <Routes>
           <Route exact path="/" element={<>Home</>}/>
