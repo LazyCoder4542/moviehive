@@ -14,44 +14,32 @@ function Home(props) {
         popular: null,
         top_rated: null,
     })
+    //const [isLoading, setIsLoading] = useState(true)
     useEffect(()=> {
         // trending movies this week
         axios.get("https://api.themoviedb.org/3/trending/movie/week", {
             params: {
                 api_key: Constant.accessToken
             }
-        }).then((res)=> {
-            setData(prevData=> {
-                return {
-                    ...prevData,
-                    trending: res.data
+        }).then((res1)=> {
+            // popular movies
+            axios.get("https://api.themoviedb.org/3/movie/popular", {
+                params: {
+                    api_key: Constant.accessToken
                 }
-            })
-        })
-        // popular movies
-        axios.get("https://api.themoviedb.org/3/movie/popular", {
-            params: {
-                api_key: Constant.accessToken
-            }
-        }).then((res)=> {
-            setData(prevData=> {
-                return {
-                    ...prevData,
-                    popular: res.data
-                }
-            })
-        })
-        // top-rated movies
-        axios.get("https://api.themoviedb.org/3/movie/top_rated", {
-            params: {
-                api_key: Constant.accessToken
-            }
-        }).then((res)=> {
-            setData(prevData=> {
-                return {
-                    ...prevData,
-                    top_rated: res.data
-                }
+            }).then((res2)=> {
+                // top-rated movies
+                axios.get("https://api.themoviedb.org/3/movie/top_rated", {
+                    params: {
+                        api_key: Constant.accessToken
+                    }
+                }).then((res3)=> {
+                    setData({
+                        trending: res1.data,
+                        popular: res2.data,
+                        top_rated: res3.data,
+                    })
+                })
             })
         })
         setTimeout(()=> {
@@ -77,7 +65,7 @@ function Home(props) {
                 }
             });
         }, 5000)
-    })
+    }, [])
     const navigate = useNavigate()
     return (
     <>
@@ -109,7 +97,7 @@ function Home(props) {
             </div>
             </div>
         </section>
-        <section id="trending-movies">
+        <section id="popular-movies">
             <header>
                 <h2>Popular Movies</h2>
             </header>
